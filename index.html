@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Interactive Logistic Map Dashboard&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Load Plotly.js for high-performance web graphing --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://plot.ly"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f8f9fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #212529;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 1200px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.controls {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 25px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f1f3f5;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.control-group {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input[type="range"] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.value-display {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: normal;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #495057;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.charts {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 600px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.charts { grid-template-columns: 1fr; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Logistic Map &amp; Cobweb System&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Dynamic Input Controls --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="control-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;Growth Parameter (r): &lt;span id="r-val" class="value-display"&gt;3.20&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="range" id="r-slider" min="2.4" max="4.0" step="0.01" value="3.2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="control-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;Initial Value (x₀): &lt;span id="x-val" class="value-display"&gt;0.20&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="range" id="x-slider" min="0.01" max="0.99" step="0.01" value="0.2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="control-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;Iterations: &lt;span id="iter-val" class="value-display"&gt;30&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="range" id="iter-slider" min="5" max="100" step="1" value="30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Graph Rendering Targets --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="charts"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="bifurcation-plot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="cobweb-plot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 1. Core Mathematical Logistic Engine</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function f(x, r) { return r * x * (1.0 - x); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 2. Pre-calculate static background Bifurcation data points for fast execution</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const bifR = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const bifX = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const nR = 800;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const nIters = 400;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const nLast = 100;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>for (let i = 0; i &lt; nR; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let r = 2.4 + (i / nR) * 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let x = 0.5;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let j = 0; j &lt; nIters; j++) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>x = f(x, r);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (j &gt;= (nIters - nLast)) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bifR.push(r);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bifX.push(x);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 3. Setup Layout Profiles</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const commonLayout = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>margin: { t: 40, b: 40, l: 50, r: 20 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hovermode: 'closest'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 4. Main Update Loop Engine</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updatePlots() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const rTarget = parseFloat(document.getElementById('r-slider').value);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const x0 = parseFloat(document.getElementById('x-slider').value);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const nCobweb = parseInt(document.getElementById('iter-slider').value);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Sync text labels</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('r-val').innerText = rTarget.toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('x-val').innerText = x0.toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('iter-val').innerText = nCobweb;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Panel 1: Render Bifurcation Plot ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const bifData = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x: bifR, y: bifX, mode: 'markers', marker: { color: '#212529', size: 1, opacity: 0.15 }, type: 'scattergl', name: 'Attractor' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x: [rTarget, rTarget], y:, mode: 'lines', line: { color: '#dc3545', width: 2, dash: 'dash' }, name: `r = ${rTarget}` }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const layoutBif = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>...commonLayout,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>title: 'Bifurcation Diagram',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>xaxis: { title: 'Growth Parameter (r)', range: [2.4, 4.0] },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>yaxis: { title: 'Steady States (x)', range: [0, 1] },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>showlegend: false</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Plotly.newPlot('bifurcation-plot', bifData, layoutBif);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Panel 2: Render Cobweb Plot ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Construct curve grid mapping arrays</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const gridX = [], gridY = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let i = 0; i &lt;= 100; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let px = i / 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gridX.push(px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gridY.push(f(px, rTarget));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Trace trajectory shifts</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cobX = [], cobY = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currX = x0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let i = 0; i &lt; nCobweb; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let nextX = f(currX, rTarget);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Vertical movement</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cobX.push(currX, currX);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cobY.push(currX, nextX);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Horizontal movement</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cobX.push(currX, nextX);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cobY.push(nextX, nextX);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currX = nextX;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cobwebData = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x: gridX, y: gridY, mode: 'lines', line: { color: '#0d6efd', width: 2.5 }, name: 'y=f(x)' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x:, y:, mode: 'lines', line: { color: '#6c757d', width: 1.5, dash: 'dash' }, name: 'y=x' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x: cobX, y: cobY, mode: 'lines', line: { color: '#dc3545', width: 1.2 }, name: 'Path' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ x: [x0], y: [x0], mode: 'markers', marker: { color: '#198754', size: 8 }, name: 'Start' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const layoutCob = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>...commonLayout,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>title: `Cobweb Trajectory Space`,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>xaxis: { title: 'x_n', range: [0, 1] },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>yaxis: { title: 'x_n+1', range: [0, 1] },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>yaxis: { scaleanchor: "x", scaleratio: 1 }, // Retain rigid geometric proportions</p>
+<p class="p1"><span class="Apple-converted-space">            </span>showlegend: false</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Plotly.newPlot('cobweb-plot', cobwebData, layoutCob);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Attach real-time structural event listener updates to elements</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('r-slider').addEventListener('input', updatePlots);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('x-slider').addEventListener('input', updatePlots);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('iter-slider').addEventListener('input', updatePlots);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Initial Trigger Run</p>
+<p class="p1"><span class="Apple-converted-space">    </span>updatePlots();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
